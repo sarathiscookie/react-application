@@ -14,7 +14,15 @@ export default class TreeList extends Component {
     }
 
     componentDidMount() {
-        fetch('http://restapiproject.test/api/lists').then((response) => {
+
+        const localStorageToken = JSON.parse(localStorage.getItem('login'));
+
+        fetch('http://restapiproject.test/api/lists', {
+            method: "GET",
+            headers: {
+                'Authorization': `Bearer ${localStorageToken.store}`
+            }
+          }).then((response) => {
             response.json().then((result) => {
                 this.setState({ list: result })
             })
@@ -25,7 +33,6 @@ export default class TreeList extends Component {
         return (
             <div>
                 <Card>
-                    <Card.Header>Listing Tree</Card.Header>
                     <Card.Body>
                         {
                             this.state.list ?
